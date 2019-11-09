@@ -9,7 +9,7 @@ setuptools.setup(
     description='A simulator for dry-running DJI Tello commands in Python 3 based on the instruction set provided by https://github.com/Virodroid/easyTello',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/FIreline-Science/tello_sim',
+    url='https://github.com/Fireline-Science/tello_sim',
     packages=setuptools.find_packages(),
     install_requires=[
         'pandas',
