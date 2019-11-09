@@ -108,3 +108,6 @@ venv.bak/
 
 # test files
 test.py
+
+# Vim files
+*.swp

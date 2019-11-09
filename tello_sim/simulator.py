@@ -4,22 +4,33 @@ from matplotlib.ticker import FuncFormatter, MaxNLocator
 import numpy as np
 import pandas as pd
 
+from easytello import Tello
 
-class Simulator:
+
+class Simulator():
     def __init__(self):
-        # state variables for sim
-        self.altitude = 0
         self.takeoff_alt = 81
+        self._init_state()
+        
+        # Put drone into command mode
+        self.command()
+
+    def _init_state(self):
+        self.altitude = 0
         self.cur_loc = (0,0)
         self.bearing = 0
         self.altitude_data = []
         self.path_coors = [(0,0)]
         self.flip_coors = []
         self.fig_count = 1
-        self.command()
+        self.command_log = []
 
     def send_command(self, command: str):
         print("I am running your {} command.".format(command))
+
+        # Command log allows for replaying commands to the actual drone
+        self.command_log.append(command)
+
         time.sleep(2)
 
     # Control Commands
@@ -28,7 +39,6 @@ class Simulator:
         print("I help you try out your flight plan before sending it to a real Tello.")
         print("I am now ready to take off. 🚁")
         self.send_command('command')
-
 
     def check_altitude(self):
         if self.altitude == 0:
@@ -173,3 +183,19 @@ class Simulator:
         self.send_command('flip {}'.format(direc))
         self.flip_coors.append(self.cur_loc)
         self.plot_horz_steps()
+
+    # Deploys the command log from the simulation state to the actual drone
+    def deploy(self):
+        print('Deploying your commands to a real Tello drone!')
+
+        # TODO Support specifying the IP here or configuring elsewhere
+        # TODO Will this need to support waiting / sleeping? Need to test w/ drone
+        tello = Tello()
+        for command in self.command_log:
+            tello.send_command(command)
+
+    # Resets the simulation state back to the beginning: no commands + landed
+    def reset(self):
+        print('Resetting simulator state...')
+        self._init_state()
+        self.command()
