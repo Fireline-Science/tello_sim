@@ -11,6 +11,7 @@ class Simulator():
     def __init__(self):
         self.takeoff_alt = 81
         self._init_state()
+        self.driver_instance = None
         
         # Put drone into command mode
         self.command()
@@ -188,11 +189,13 @@ class Simulator():
     def deploy(self):
         print('Deploying your commands to a real Tello drone!')
 
-        # TODO Support specifying the IP here or configuring elsewhere
-        # TODO Will this need to support waiting / sleeping? Need to test w/ drone
-        tello = Tello()
+        if (self.driver_instance is None):
+            # Since the driver binds to a socket on instantiation, we can only
+            # keep a single driver instance open per session
+            self.driver_instance = Tello()
+
         for command in self.command_log:
-            tello.send_command(command)
+            self.driver_instance.send_command(command)
 
     # Resets the simulation state back to the beginning: no commands + landed
     def reset(self):
