@@ -1,0 +1,9 @@
+command
+takeoff
+forward 100
+up 100
+cw 900
+forward 50
+flip f
+cw 45
+forward 60

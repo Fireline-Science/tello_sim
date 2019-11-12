@@ -12,7 +12,7 @@ class Simulator():
         self.takeoff_alt = 81
         self._init_state()
         self.driver_instance = None
-        
+
         # Put drone into command mode
         self.command()
 
@@ -202,3 +202,16 @@ class Simulator():
         print('Resetting simulator state...')
         self._init_state()
         self.command()
+
+    def save(self):
+        print('Saving commands to commands.csv')
+        commands = pd.DataFrame(self.command_log)
+        commands.to_csv('commands.csv', index=False, header=False)
+
+    # def load_commands(self, file_name:str):
+    #     print('Loading commands from {}'.format(file_name))
+    #     commands = pd.read_csv(file_name, header=None)
+    #     com_list = commands[0].to_list()
+    #     self.command_log = com_list
+    #     for i in command_log:
+    #
