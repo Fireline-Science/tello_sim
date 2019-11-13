@@ -56,6 +56,22 @@ my_drone.land()
 ```
 ![](/images/land.png)
 
+## Resetting Simulator States
+To reset the state of your simulator for a given object, use the following:
+
+```python
+my_drone.reset()
+```
+
+## Deploying to a Real drone
+We are using the [easytello](https://github.com/Virodroid/easyTello) library to allow you to deploy your simulated flight to a real drone. Once you are connected to your drone via WiFi, you can deploy the commands you built up in an interactive session in Jupyter with the following command:
+
+```python
+my_drone.deploy()
+```
+
+
+
 ## Running Multiple Command Scripts in the Same Session
 Note: if you are running multiple scripts to the drone, you may have to kill the process that binds the python process to the Tello port if you receive a `OSError: [Errno 48] Address already in use` error. You can search for and kill the process as follows in a linux-like console:
 
