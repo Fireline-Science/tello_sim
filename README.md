@@ -1,8 +1,12 @@
 # tello_sim
 
-**tello_sim** is a simple Python simulator (sim) that can be used by students to test their DJI tello flight plans before trying deploying them to a real drone. This supports the United States' Next Generation Science Standards for K12 related to [distinguishing between a model and the actual object, process, and/or events the model represents](https://ngss.nsta.org/Practices.aspx?id=2). It was inspired by the [easyTello](https://github.com/Virodroid/easyTello) library and uses it for the drone interface.
+**tello_sim** is a simple Python simulator (sim) that can be used by students to test their DJI tello flight plans before deploying them to a real drone. It was inspired by the [easyTello](https://github.com/Virodroid/easyTello) library and uses it for the drone interface.
 
-The sim outputs some basic plots which students can also use to see how actual flights compare to the simulated ones. The sim was developed for use in a Jupyter notebook or QT console so that the plots are displayed inline with the code print outputs. The sim currently supports a subset of the full DJI command set including: takeoff, land, forward, back, left, right, up, down, flip, cw, and ccw.
+One suggested use for the sim is to develop an in-class obstacle course for students to fly their drone through. For example, you could have designated launch and landing positions that are separated by a series of obstacles. Obstacles could include tunnels to fly through or corners to navigate around. The sim requires students to think through, develop, and test their entire flight plan via the simple command scripts before deploying them to the drone. Using measurements from the real course, they can create command scripts to send to the simulator. The sim then outputs some basic plots of the three dimensional path the drone *should* take.
+
+After simulating their flight, they can then deploy the same code to a real drone to see how their model performs in the real world. There will always be differences between the simulation and the actual flight which will help students think about how to evaluate their model and improve their flight plan given data from the real flight. An exercise like this supports the United States' Next Generation Science Standards for K12 related to [distinguishing between a model and the actual object, process, and/or events the model represents](https://ngss.nsta.org/Practices.aspx?id=2).  
+
+The sim was developed for use in a Jupyter notebook or QT console so that the plots are displayed inline with the code print outputs. The sim currently supports a subset of the full DJI command set including: takeoff, land, forward, back, left, right, up, down, flip, cw, and ccw.
 
 ## Installation
 <!-- To install the library, simply run:
