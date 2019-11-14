@@ -1,3 +1,4 @@
+import json
 import time
 from matplotlib import pyplot as plt
 from matplotlib.ticker import FuncFormatter, MaxNLocator
@@ -12,19 +13,6 @@ class Simulator():
         self.takeoff_alt = 81
         self._init_state()
         self.driver_instance = None
-        self.command_map = {
-        "takeoff":self.takeoff,
-        "up":[self.up,int],
-        "down":[self.down,int],
-        "left":[self.left,int],
-        "right":[self.right,int],
-        "forward":[self.forward,int],
-        "back":[self.back,int],
-        "up":[self.up,int],
-        "cw":[self.cw,int],
-        "ccw":[self.ccw,int],
-        "flip":[self.flip,str],
-        "land":self.land}
 
         # Put drone into command mode
         self.command()
@@ -39,11 +27,22 @@ class Simulator():
         self.fig_count = 1
         self.command_log = []
 
-    def send_command(self, command: str):
-        print("I am running your {} command.".format(command))
+    @staticmethod
+    def serialize_command(command: dict):
+        serialized = command['command']
+        command_args = command.get('arguments', ())
+        if len(command_args) > 0:
+            serialized = '{} {}'.format(serialized, ' '.join([str(arg) for arg in command_args]))
+        return serialized
 
+    def send_command(self, command: str, *args):
         # Command log allows for replaying commands to the actual drone
-        self.command_log.append(command)
+        command_json = {
+            'command': command,
+            'arguments': args
+        }
+        self.command_log.append(command_json)
+        print('I am running your "{}" command.'.format(self.serialize_command(command_json)))
 
         time.sleep(2)
 
@@ -131,7 +130,7 @@ class Simulator():
         print("My current bearing is {} degrees.".format(self.bearing))
         self.altitude = self.altitude + dist
         self.altitude_data.append(self.altitude)
-        self.send_command('up {}'.format(dist))
+        self.send_command('up', dist)
         self.plot_altitude_steps()
 
     def down(self, dist: int):
@@ -139,7 +138,7 @@ class Simulator():
         print("My current bearing is {} degrees.".format(self.bearing))
         self.altitude = self.altitude - dist
         self.altitude_data.append(self.altitude)
-        self.send_command('down {}'.format(dist))
+        self.send_command('down', dist)
         self.plot_altitude_steps()
 
     def left(self, dist: int):
@@ -149,7 +148,7 @@ class Simulator():
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
         print(self.path_coors)
-        self.send_command('left {}'.format(dist))
+        self.send_command('left', dist)
         self.plot_horz_steps()
 
     def right(self, dist: int):
@@ -158,7 +157,7 @@ class Simulator():
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing+90, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
-        self.send_command('right {}'.format(dist))
+        self.send_command('right', dist)
         self.plot_horz_steps()
 
     def forward(self, dist: int):
@@ -167,7 +166,7 @@ class Simulator():
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
-        self.send_command('forward {}'.format(dist))
+        self.send_command('forward', dist)
         self.plot_horz_steps()
 
     def back(self, dist: int):
@@ -175,26 +174,26 @@ class Simulator():
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing+180, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
-        self.send_command('back {}'.format(dist))
+        self.send_command('back', dist)
         self.plot_horz_steps()
 
     def cw(self, degr: int):
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
         self.bearing = self.bearing + (degr % 360)
-        self.send_command('cw {}'.format(degr))
+        self.send_command('cw', degr)
         print("My new bearing is {} degrees.".format(self.bearing))
 
     def ccw(self, degr: int):
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
         self.bearing = self.bearing - (degr % 360)
-        self.send_command('ccw {}'.format(degr))
+        self.send_command('ccw', degr)
         print("My current bearing is {} degrees.".format(self.bearing))
 
     def flip(self, direc: str):
         self.check_altitude()
-        self.send_command('flip {}'.format(direc))
+        self.send_command('flip', direc)
         self.flip_coors.append(self.cur_loc)
         self.plot_horz_steps()
 
@@ -208,7 +207,7 @@ class Simulator():
             self.driver_instance = Tello()
 
         for command in self.command_log:
-            self.driver_instance.send_command(command)
+            self.driver_instance.send_command(self.serialize_command(command))
 
     # Resets the simulation state back to the beginning: no commands + landed
     def reset(self):
@@ -216,24 +215,17 @@ class Simulator():
         self._init_state()
         self.command()
 
-    def save(self):
-        print('Saving commands to commands.csv')
-        commands = pd.DataFrame(self.command_log[1:])
-        commands.to_csv('commands.csv', index=False, header=False)
+    def save(self, file_path='commands.json'):
+        print('Saving commands to {}'.format(file_path))
+        with open(file_path, 'w') as json_file:
+            json.dump(self.command_log, json_file, indent=4)
 
-# TODO there has to be a better way to do this.
-    def load_commands(self, file_name:str):
-        self.reset()
-        print('Loading commands from {}'.format(file_name))
-        # self.reset()
-        commands = pd.read_csv(file_name, header=None)
-        com_list = commands[0].to_list()
-        for i in com_list:
-            coms = i.split()
-            if len(coms) > 1:
-                command_list = self.command_map.get(coms[0])
-                command = command_list[0]
-                param_type = command_list[1]
-                command(param_type(coms[1]))
-            else:
-                self.command_map.get(i)()
+    def load_commands(self, file_path:str):
+        self._init_state()
+        print('Loading commands from {}'.format(file_path))
+        with open(file_path) as json_file:
+            commands = json.load(json_file)
+
+        for command in commands:
+            # TODO guard checks
+            getattr(self, command['command'])(*command['arguments'])
