@@ -117,7 +117,7 @@ my_drone.reset()
 ```
 
 ## Deploying to a Real drone
-We are using the [easytello](https://github.com/Virodroid/easyTello) library to allow you to deploy your simulated flight to a real drone. Once you are connected to your drone via WiFi, you can deploy the commands you built up in an interactive session in Jupyter with the following command:
+We are using the [easytello](https://github.com/Virodroid/easyTello) library to allow you to deploy your simulated flight to a real drone. Once you are connected to your drone via WiFi, you can deploy the commands you built up in an interactive session or loaded via a command file in Jupyter with the following command:
 
 ```python
 my_drone.deploy()
