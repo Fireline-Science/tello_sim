@@ -12,6 +12,19 @@ class Simulator():
         self.takeoff_alt = 81
         self._init_state()
         self.driver_instance = None
+        self.command_map = {
+        "takeoff":self.takeoff,
+        "up":[self.up,int],
+        "down":[self.down,int],
+        "left":[self.left,int],
+        "right":[self.right,int],
+        "forward":[self.forward,int],
+        "back":[self.back,int],
+        "up":[self.up,int],
+        "cw":[self.cw,int],
+        "ccw":[self.ccw,int],
+        "flip":[self.flip,str],
+        "land":self.land}
 
         # Put drone into command mode
         self.command()
@@ -205,13 +218,22 @@ class Simulator():
 
     def save(self):
         print('Saving commands to commands.csv')
-        commands = pd.DataFrame(self.command_log)
+        commands = pd.DataFrame(self.command_log[1:])
         commands.to_csv('commands.csv', index=False, header=False)
 
-    # def load_commands(self, file_name:str):
-    #     print('Loading commands from {}'.format(file_name))
-    #     commands = pd.read_csv(file_name, header=None)
-    #     com_list = commands[0].to_list()
-    #     self.command_log = com_list
-    #     for i in command_log:
-    #
+# TODO there has to be a better way to do this.
+    def load_commands(self, file_name:str):
+        self.reset()
+        print('Loading commands from {}'.format(file_name))
+        # self.reset()
+        commands = pd.read_csv(file_name, header=None)
+        com_list = commands[0].to_list()
+        for i in com_list:
+            coms = i.split()
+            if len(coms) > 1:
+                command_list = self.command_map.get(coms[0])
+                command = command_list[0]
+                param_type = command_list[1]
+                command(param_type(coms[1]))
+            else:
+                self.command_map.get(i)()
