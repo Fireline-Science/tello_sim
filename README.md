@@ -8,6 +8,11 @@ After simulating their flight, they can then deploy the same code to a real dron
 
 The sim was developed for use in a Jupyter notebook or QT console so that the plots are displayed inline with the code print outputs. The sim currently supports a subset of the full DJI command set including: takeoff, land, forward, back, left, right, up, down, flip, cw, and ccw.
 
+## Example Jupyter Notebook
+![](/images/jupyter_notebook.png)
+
+
+
 ## Installation
 <!-- To install the library, simply run:
 ```
