@@ -108,6 +108,7 @@ To load a command file, do the following. Note that the `load_commands` function
 
 ```python
 my_drone.load_commands(file_path='new_commands.json')
+```
 
 ## Resetting Simulator States
 To reset the state of your simulator for a given object, use the following:
