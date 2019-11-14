@@ -111,3 +111,6 @@ test.py
 
 # Vim files
 *.swp
+
+# Idea files
+.idea
