@@ -25,7 +25,7 @@ $ cd tello_sim
 $ pip install .
 ``` -->
 
-**Note:** The sim requires pandas and is designed for use with Jupyter notebooks or QT consoles. Downloading and installing the [Anaconda distribution](https://www.anaconda.com/distribution/) of Python 3 is the recommended method for getting these data science packages.
+**Note:** The sim requires pandas and matplotlib and is designed to be used interactively with Jupyter notebooks or QT consoles. Downloading and installing the [Anaconda distribution](https://www.anaconda.com/distribution/) of Python 3 is the recommended method for getting these data science packages.
 
 ## Sim Examples
 
