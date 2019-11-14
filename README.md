@@ -56,6 +56,57 @@ my_drone.land()
 ```
 ![](/images/land.png)
 
+## Saving and Loading Command scripts
+In a classroom, it can be useful to allow students to share their command scripts or allow them to send them to a teacher which can be the gatekeeper for sending the scripts to the real drones. To facilitate that, we have two functions that allow you to save and load commands scripts. The scripts are a simple JSON document formatted as follows:
+
+```json
+[
+    {
+        "command": "command",
+        "arguments": []
+    },
+    {
+        "command": "takeoff",
+        "arguments": []
+    },
+    {
+        "command": "forward",
+        "arguments": [
+            100
+        ]
+    },
+    {
+    	"command": "cw",
+	"arguments": [
+	    90
+	]
+    },
+    {
+    	"command": "forward",
+	"arguments": [
+	    100
+	]
+    },
+    {
+        "command": "land",
+        "arguments": []
+    }
+]
+```
+
+To save the commands built up in an interactive console, do the following:
+
+```python
+my_drone.save(file_path='save_file.json')
+```
+
+To load a command file, do the following. Note that the `load_commands` function resets your drone object, so any saved commands will be cleared.
+
+```python
+my_drone.load_commands(file_path='new_commands.json')
+
+
+
 ## Running Multiple Command Scripts in the Same Session
 Note: if you are running multiple scripts to the drone, you may have to kill the process that binds the python process to the Tello port if you receive a `OSError: [Errno 48] Address already in use` error. You can search for and kill the process as follows in a linux-like console:
 
