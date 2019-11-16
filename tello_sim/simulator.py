@@ -113,6 +113,7 @@ class Simulator():
         Examples
         ----------
         drone.takeoff() # command drone to takeoff
+
         """
         if self.altitude == 0:
             print("Get ready for takeoff!")
@@ -130,6 +131,7 @@ class Simulator():
         Examples
         ----------
         drone.land() # command drone to land
+
         """
         print("Get ready for landing!")
         self.check_altitude()
@@ -150,6 +152,7 @@ class Simulator():
         Examples
         ----------
         drone.up(100) # move drone up 100 centimeters
+
         """
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
@@ -169,6 +172,7 @@ class Simulator():
         Examples
         ----------
         drone.down(100) # move drone down 100 centimeters
+
         """
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
@@ -188,6 +192,7 @@ class Simulator():
         Examples
         ----------
         drone.left(100) # move drone left 100 centimeters
+
         """
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
@@ -209,6 +214,7 @@ class Simulator():
         Examples
         ----------
         drone.right(100) # move drone right 100 centimeters
+
         """
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
@@ -229,6 +235,7 @@ class Simulator():
         Examples
         ----------
         drone.forward(100) # move drone forward 100 centimeters
+
         """
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
@@ -249,6 +256,7 @@ class Simulator():
         Examples
         ----------
         drone.back(100) # move drone backward 100 centimeters
+
         """
         self.check_altitude()
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing+180, dist=dist)
@@ -268,6 +276,7 @@ class Simulator():
         Examples
         ----------
         drone.cw(90) # rotates drone 90 degrees clockwise
+
         """
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
@@ -286,6 +295,7 @@ class Simulator():
         Examples
         ----------
         drone.ccw(90) # rotates drone 90 degrees counter clockwise
+
         """
         self.check_altitude()
         print("My current bearing is {} degrees.".format(self.bearing))
@@ -308,6 +318,7 @@ class Simulator():
         Examples
         ----------
         drone.flip("f") # flips drone forward
+
         """
         self.check_altitude()
         self.send_command('flip', direc)
@@ -323,6 +334,7 @@ class Simulator():
         Examples
         ----------
         drone.deploy() # deploy commands to drone
+
         """
         print('Deploying your commands to a real Tello drone!')
 
@@ -342,6 +354,7 @@ class Simulator():
         Examples
         ----------
         drone.reset() # reset sim state
+
         """
         print('Resetting simulator state...')
         self._init_state()
@@ -358,6 +371,7 @@ class Simulator():
         Examples
         ----------
         drone.save("commands.json") # save current state to JSON file
+
         """
         print('Saving commands to {}'.format(file_path))
         with open(file_path, 'w') as json_file:
@@ -375,6 +389,7 @@ class Simulator():
         Examples
         ----------
         drone.load_commands("commands.json") # load commands from file to current sim object.
+        
         """
         self._init_state()
         print('Loading commands from {}'.format(file_path))
