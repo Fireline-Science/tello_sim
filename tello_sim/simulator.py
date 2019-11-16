@@ -107,7 +107,7 @@ class Simulator():
 
    # Movement Commands
     def takeoff(self):
-        r"""
+        """
         Command drone to takeoff.
 
         Examples
@@ -124,7 +124,7 @@ class Simulator():
             print("My current altitude is {} centimeters, so I can't takeoff again!".format(self.altitude))
 
     def land(self):
-        r"""
+        """
         Command drone to land.
 
         Examples
@@ -140,7 +140,7 @@ class Simulator():
         self.plot_altitude_steps()
 
     def up(self, dist: int):
-        r"""
+        """
         Command drone to fly up a given number of centimeters.
 
         Parameters
@@ -159,7 +159,7 @@ class Simulator():
         self.plot_altitude_steps()
 
     def down(self, dist: int):
-        r"""
+        """
         Command drone to fly down a given number of centimeters.
 
         Parameters
@@ -178,7 +178,7 @@ class Simulator():
         self.plot_altitude_steps()
 
     def left(self, dist: int):
-        r"""
+        """
         Command drone to fly left a given number of centimeters.
 
         Parameters
@@ -199,7 +199,7 @@ class Simulator():
         self.plot_horz_steps()
 
     def right(self, dist: int):
-        r"""
+        """
         Command drone to fly right a given number of centimeters.
 
         Parameters
@@ -219,7 +219,7 @@ class Simulator():
         self.plot_horz_steps()
 
     def forward(self, dist: int):
-        r"""
+        """
         Command drone to fly forward a given number of centimeters.
 
         Parameters
@@ -239,7 +239,7 @@ class Simulator():
         self.plot_horz_steps()
 
     def back(self, dist: int):
-        r"""
+        """
         Command drone to fly backward a given number of centimeters.
 
         Parameters
@@ -258,7 +258,7 @@ class Simulator():
         self.plot_horz_steps()
 
     def cw(self, degr: int):
-        r"""
+        """
         Rotate drone clockwise.
 
         Parameters
@@ -276,7 +276,7 @@ class Simulator():
         print("My new bearing is {} degrees.".format(self.bearing))
 
     def ccw(self, degr: int):
-        r"""
+        """
         Rotate drone counter clockwise.
 
         Parameters
@@ -294,7 +294,7 @@ class Simulator():
         print("My current bearing is {} degrees.".format(self.bearing))
 
     def flip(self, direc: str):
-        r"""
+        """
         Flips drones in one of four directions:
         l - left
         r - right
@@ -316,7 +316,7 @@ class Simulator():
 
     # Deploys the command log from the simulation state to the actual drone
     def deploy(self):
-        r"""
+        """
         Deploys commands built up for drone object to real drone via easyTello.
         Note: computer must be connected to the drone's WiFi network.
 
@@ -336,7 +336,7 @@ class Simulator():
 
     # Resets the simulation state back to the beginning: no commands + landed
     def reset(self):
-        r"""
+        """
         Reset the drone object to initialization state.
 
         Examples
@@ -348,7 +348,7 @@ class Simulator():
         self.command()
 
     def save(self, file_path='commands.json'):
-        r"""
+        """
         Save commands from current sim state to a local file.
 
         Parameters
@@ -364,7 +364,7 @@ class Simulator():
             json.dump(self.command_log, json_file, indent=4)
 
     def load_commands(self, file_path:str):
-        r"""
+        """
         Load commands from a local file to the current sim object.
         See documentation for the required file format.
 
@@ -374,7 +374,7 @@ class Simulator():
 
         Examples
         ----------
-        drone.load_commands("commands.json") # load commands from file to current sim object. 
+        drone.load_commands("commands.json") # load commands from file to current sim object.
         """
         self._init_state()
         print('Loading commands from {}'.format(file_path))
