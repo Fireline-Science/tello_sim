@@ -35,6 +35,20 @@ class Simulator():
             serialized = '{} {}'.format(serialized, ' '.join([str(arg) for arg in command_args]))
         return serialized
 
+    @staticmethod
+    def check_flip_param(param: str):
+        if param not in ["f", "b", "r", "l"]:
+            raise Exception("I can't tell which way to flip. Please use f, b, r, or l")
+        else:
+            pass
+
+    @staticmethod
+    def check_int_param(param: int):
+        if type(param) != int:
+            raise Exception("This command only accepts whole numbers without quotation marks.")
+        else:
+            pass
+
     def send_command(self, command: str, *args):
         # Command log allows for replaying commands to the actual drone
         command_json = {
@@ -155,6 +169,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(dist)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.altitude = self.altitude + dist
         self.altitude_data.append(self.altitude)
@@ -175,6 +190,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(dist)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.altitude = self.altitude - dist
         self.altitude_data.append(self.altitude)
@@ -195,6 +211,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(dist)
         print("My current bearing is {} degrees.".format(self.bearing))
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing-90, dist=dist)
         self.cur_loc = new_loc
@@ -217,6 +234,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(dist)
         print("My current bearing is {} degrees.".format(self.bearing))
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing+90, dist=dist)
         self.cur_loc = new_loc
@@ -238,6 +256,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(dist)
         print("My current bearing is {} degrees.".format(self.bearing))
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing, dist=dist)
         self.cur_loc = new_loc
@@ -259,6 +278,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(dist)
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing+180, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
@@ -279,6 +299,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(degr)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.bearing = self.bearing + (degr % 360)
         self.send_command('cw', degr)
@@ -298,6 +319,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_int_param(degr)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.bearing = self.bearing - (degr % 360)
         self.send_command('ccw', degr)
@@ -321,6 +343,7 @@ class Simulator():
 
         """
         self.check_altitude()
+        self.check_flip_param(direc)
         self.send_command('flip', direc)
         self.flip_coors.append(self.cur_loc)
         self.plot_horz_steps()
@@ -389,7 +412,7 @@ class Simulator():
         Examples
         ----------
         drone.load_commands("commands.json") # load commands from file to current sim object.
-        
+
         """
         self._init_state()
         print('Loading commands from {}'.format(file_path))
