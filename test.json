@@ -1,0 +1,38 @@
+[
+    {
+        "command": "command",
+        "arguments": []
+    },
+    {
+        "command": "takeoff",
+        "arguments": []
+    },
+    {
+        "command": "forward",
+        "arguments": [
+            80
+        ]
+    },
+    {
+        "command": "cw",
+        "arguments": [
+            45
+        ]
+    },
+    {
+        "command": "forward",
+        "arguments": [
+            40
+        ]
+    },
+    {
+        "command": "up",
+        "arguments": [
+            25
+        ]
+    },
+    {
+        "command": "land",
+        "arguments": []
+    }
+]
