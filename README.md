@@ -29,6 +29,16 @@ $ pip install .
 
 **Note:** The sim requires pandas and matplotlib and is designed to be used interactively with Jupyter notebooks or QT consoles. Downloading and installing the [Anaconda distribution](https://www.anaconda.com/distribution/) of Python 3 is the recommended method for getting these data science packages.
 
+## Cloud Notebook Option
+If you don't want to install Jupyter on your local machine, you can also use the free [mybinder](https://mybinder.org/) cloud-based Jupyter notebook service. While this service will allow you to use the simulator, you will not be able to deploy your simulated flight to a real drone given the code will be running on a remote server.
+
+Use the link below to launch the mybinder version of a Jupyter notebook and then you can open the demo notebook which is titled "drone_notebook.ipynb".
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Fireline-Science/tello_sim/master)
+
+
+
+
 ## Sim Examples
 
 The sim is built to run interactively in a Jupyter notebook or QT Console. The sim class outputs both text prompts and plots with each
