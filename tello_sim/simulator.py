@@ -79,6 +79,7 @@ class Simulator():
         fig, ax = plt.subplots()
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
         ax.plot(self.altitude_data,'ro', linestyle='dashed', linewidth=2, markersize=12)
+        ax.plot(self.altitude_data, linewidth=25, alpha=.15)
         ax.grid()
         ax.set(xlabel='Step', ylabel='Altitude in Centimeters',title='Tello Altitude')
         plt.show()
@@ -98,6 +99,7 @@ class Simulator():
         ax.set_xlim([xlowlim,xhilim])
         ax.set_ylim([ylowlim,yhilim])
         ax.plot(horz_df[0], horz_df[1], 'bo', linestyle='dashed', linewidth=2, markersize=12, label="Drone Moves")
+        ax.plot(horz_df[0], horz_df[1], linewidth=25, alpha=.15)
         if len(self.flip_coors) > 0:
             flip_df = pd.DataFrame(self.flip_coors)
             ax.plot(flip_df[0], flip_df[1], 'ro', markersize=12, label="Drone Flips")
