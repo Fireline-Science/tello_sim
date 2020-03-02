@@ -1,6 +1,6 @@
 # tello_sim
 
-**tello_sim** is a simple Python simulator (sim) that can be used by students to test their [DJI tello](https://store.dji.com/shop/tello-series?from=menu_products) flight plans before deploying them to a real drone. It was inspired by the [easyTello](https://github.com/Virodroid/easyTello) library and uses it for the drone interface.
+**tello_sim** is a simple Python simulator (sim) that can be used by students to test their [tello](https://www.ryzerobotics.com/tello-edu) flight plans before deploying them to a real drone. It was inspired by the [easyTello](https://github.com/Virodroid/easyTello) library and uses it for the drone interface.
 
 One suggested use for the sim is to develop an in-class obstacle course for students to fly their drone through. For example, you could have designated launch and landing positions that are separated by a series of obstacles. Obstacles could include tunnels to fly through or corners to navigate around.
 
