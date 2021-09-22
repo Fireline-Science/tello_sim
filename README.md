@@ -41,9 +41,9 @@ Use the link below to launch the mybinder version of a Jupyter notebook and then
 
 
 
-## Sim Examples
+## Simulator Examples
 
-The sim is built to run interactively in a Jupyter notebook or QT Console. The sim class outputs both text prompts and plots with each
+The simulator is built to run interactively in a Jupyter notebook or QT Console. The sim class outputs both text prompts and plots with each
 simulated command.
 
 Creating a simulated drone object in Python:
@@ -142,6 +142,21 @@ We are using the [easytello](https://github.com/Virodroid/easyTello) library to 
 ```python
 my_drone.deploy()
 ```
+
+We recommend that you spend some time experimenting with the simulator and deploying code to the drone prior to use in the classroom. The interface to the drone can experience errors when deploying commands which can generally be resolved by restarting the drone, reconnecting to the drone's wifi network and using the library to rerun the `my_drone.deploy()` command. You can also set the expectation that errors do occur and are part of the general scientific process. We also recommend that you refer to the [Tello User Manual](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20User%20Manual%20v1.4.pdf) for general information about the drone. Of specific interest are the various LED codes.
+
+|        |Color|Pattern|Drone State|
+|-------------|-----|-----|-----|
+|**Normal States**|Alternating red, green, and yellow|Blinking|Turning on and performing self-diagnostic tests|
+||Green|Periodically blinks twice|Vision positioning system active|
+||Yellow|Blinking slowly|Vision unavailable (usually due to low light)||
+|**Charging States**|Blue|Solid|Charging is complete|
+||Blue|Blinking slowly|Charging|
+||Blue|Blinking quickly|Charging error|
+|**Warning States**|Yellow|Blnking quickly|Remote control signal lost|
+||Red|Blnking slowly|Low battery|
+||Red|Blnking quickly|Critically low battery|
+||Red|Solid|Critical error|
 
 ## Running Multiple Command Scripts in the Same Session
 Note: if you are running multiple scripts to the drone, you may have to kill the process that binds the python process to the Tello port if you receive a `OSError: [Errno 48] Address already in use` error. You can search for and kill the process as follows in a linux-like console:
