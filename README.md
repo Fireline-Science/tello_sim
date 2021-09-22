@@ -32,7 +32,7 @@ $ pip install .
 **Note:** The sim requires pandas and matplotlib and is designed to be used interactively with Jupyter notebooks or QT consoles. Downloading and installing the [Anaconda distribution](https://www.anaconda.com/distribution/) of Python 3 is the recommended method for getting these data science packages.
 
 ## Cloud Notebook Option
-If you don't want to install Jupyter on your local machine, you can also use the free [mybinder](https://mybinder.org/) cloud-based Jupyter notebook service. While this service will allow you to use the simulator, you will not be able to deploy your simulated flight to a real drone given the code will be running on a remote server. We have used this in classrooms where we could not easily install Python. In this scenario, the students are able to work with the simulator in their browser and then share their final flight code with the teacher who has installed the library locally and can send it to the drone via wifi.
+If you don't want to install Jupyter on your local machine, you can also use the free [mybinder](https://mybinder.org/) cloud-based Jupyter notebook service. While this service will allow you to use the simulator, you will not be able to deploy your simulated flight to a real drone given the code will be running on a remote server. We have used this in classrooms where we could not easily install Python. In this scenario, the students are able to work with the simulator in their browser and then share their final flight code with the teacher who has installed the library locally and can send it to the drone via WiFi.
 
 Use the link below to launch the mybinder version of a Jupyter notebook and then you can open the demo notebook which is titled "drone_notebook.ipynb".
 
@@ -143,9 +143,9 @@ We are using the [easytello](https://github.com/Virodroid/easyTello) library to 
 my_drone.deploy()
 ```
 
-We recommend that you spend some time experimenting with the simulator and deploying code to the drone prior to use in the classroom. The interface to the drone can experience errors when deploying commands which can generally be resolved by restarting the drone, reconnecting to the drone's wifi network and using the library to rerun the `my_drone.deploy()` command. You can also set the expectation that errors do occur and are part of the general scientific process. We also recommend that you refer to the [Tello User Manual](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20User%20Manual%20v1.4.pdf) for general information about the drone. Of specific interest are the various LED codes.
+We recommend that you spend some time experimenting with the simulator and deploying code to the drone prior to use in the classroom. The interface to the drone can experience errors when deploying commands which can generally be resolved by restarting the drone, reconnecting to the drone's WiFi network and using the library to rerun the `my_drone.deploy()` command. You can also set the expectation that errors do occur and are part of the general scientific process. We recommend that you refer to the [Tello User Manual](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20User%20Manual%20v1.4.pdf) for general information about the drone. Of specific interest are the various LED codes which we have replicated below.
 
-|        |Color|Pattern|Drone State|
+||Color|Pattern|Drone State|
 |-------------|-----|-----|-----|
 |**Normal States**|Alternating red, green, and yellow|Blinking|Turning on and performing self-diagnostic tests|
 ||Green|Periodically blinks twice|Vision positioning system active|
@@ -159,7 +159,7 @@ We recommend that you spend some time experimenting with the simulator and deplo
 ||Red|Solid|Critical error|
 
 ## Running Multiple Command Scripts in the Same Session
-Note: if you are running multiple scripts to the drone, you may have to kill the process that binds the python process to the Tello port if you receive a `OSError: [Errno 48] Address already in use` error. You can search for and kill the process as follows in a linux-like console:
+Note: if you are running multiple scripts to the drone, you may have to kill the process that binds the python process to the Tello port if you receive a `OSError: [Errno 48] Address already in use` error. You can search for and kill the process as follows in a linux or MacOSX console. Replace XXXX with the process id that you see after running the `lsof` command.
 
 ```
 lsof -i:8889
