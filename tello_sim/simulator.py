@@ -5,7 +5,7 @@ from matplotlib.ticker import FuncFormatter, MaxNLocator
 import numpy as np
 import pandas as pd
 
-from easytello import Tello
+from djitellopy import Tello
 
 
 class Simulator():
