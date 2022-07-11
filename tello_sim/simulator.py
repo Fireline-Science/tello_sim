@@ -18,6 +18,7 @@ class Simulator():
         self.command()
 
     def _init_state(self):
+        self.takeoff_state = False
         self.altitude = 0
         self.cur_loc = (0,0)
         self.bearing = 0
@@ -45,7 +46,7 @@ class Simulator():
     @staticmethod
     def check_int_param(param: int):
         if type(param) != int:
-            raise Exception("This command only accepts whole numbers without quotation marks.")
+            raise Exception("One of the parameters of this command only accepts whole numbers without quotation marks.")
         else:
             pass
 
@@ -67,24 +68,24 @@ class Simulator():
         print("I am now ready to take off. 🚁")
         self.send_command('command')
 
-    def check_altitude(self):
-        if self.altitude == 0:
+    def check_takeoff(self):
+        if self.takeoff_state == False:
             raise Exception("I can't do that unless I take off first!")
         else:
             print("I am flying at {} centimeters above my takeoff altitude.".format(self.altitude))
             pass
 
     # Plotting functions
-    def plot_altitude_steps(self):
+    def plot_altitude_steps(self, e):
         fig, ax = plt.subplots()
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
         ax.plot(self.altitude_data,'ro', linestyle='dashed', linewidth=2, markersize=12)
-        ax.plot(self.altitude_data, linewidth=25, alpha=.15)
+        ax.plot(self.altitude_data, linewidth=e, alpha=.15)
         ax.grid()
         ax.set(xlabel='Step', ylabel='Altitude in Centimeters',title='Tello Altitude')
         plt.show()
 
-    def plot_horz_steps(self):
+    def plot_horz_steps(self, e):
         title = "Path of Tello from Takeoff Location. \nLast Heading= {} Degrees from Start".format(self.bearing)
         fig, ax = plt.subplots()
         horz_df = pd.DataFrame(self.path_coors)
@@ -99,7 +100,7 @@ class Simulator():
         ax.set_xlim([xlowlim,xhilim])
         ax.set_ylim([ylowlim,yhilim])
         ax.plot(horz_df[0], horz_df[1], 'bo', linestyle='dashed', linewidth=2, markersize=12, label="Drone Moves")
-        ax.plot(horz_df[0], horz_df[1], linewidth=25, alpha=.15)
+        ax.plot(horz_df[0], horz_df[1], linewidth=e, alpha=.15)
         if len(self.flip_coors) > 0:
             flip_df = pd.DataFrame(self.flip_coors)
             ax.plot(flip_df[0], flip_df[1], 'ro', markersize=12, label="Drone Flips")
@@ -131,8 +132,9 @@ class Simulator():
         drone.takeoff() # command drone to takeoff
 
         """
-        if self.altitude == 0:
+        if self.takeoff_state == False:
             print("Get ready for takeoff!")
+            self.takeoff_state = True
             self.altitude = self.takeoff_alt
             self.altitude_data.append(self.takeoff_alt)
             self.send_command('takeoff')
@@ -140,7 +142,7 @@ class Simulator():
         else:
             print("My current altitude is {} centimeters, so I can't takeoff again!".format(self.altitude))
 
-    def land(self):
+    def land(self, e=25):
         """
         Command drone to land.
 
@@ -149,143 +151,169 @@ class Simulator():
         drone.land() # command drone to land
 
         """
+        self.check_takeoff()
         print("Get ready for landing!")
-        self.check_altitude()
+        self.takeoff_state = False
         self.altitude = 0
         self.send_command('land')
         print("Here are the graphs of your flight! I can't wait to try this for real.")
-        self.plot_horz_steps()
-        self.plot_altitude_steps()
+        self.plot_horz_steps(e)
+        self.plot_altitude_steps(e)
 
-    def up(self, dist: int):
+
+    def up(self, dist: int, e=25):
         """
         Command drone to fly up a given number of centimeters.
 
         Parameters
         ----------
         dist : int
+            the distance in centimeters
+        e : int
+            the width of the error bar in centimeters
 
         Examples
         ----------
         drone.up(100) # move drone up 100 centimeters
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(dist)
+        self.check_int_param(e)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.altitude = self.altitude + dist
         self.altitude_data.append(self.altitude)
         self.send_command('up', dist)
-        self.plot_altitude_steps()
+        self.plot_altitude_steps(e)
 
-    def down(self, dist: int):
+    def down(self, dist: int, e=25):
         """
         Command drone to fly down a given number of centimeters.
 
         Parameters
         ----------
         dist : int
+            the distance in centimeters
+        e : int
+            the width of the error bar in centimeters    
 
         Examples
         ----------
         drone.down(100) # move drone down 100 centimeters
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(dist)
+        self.check_int_param(e)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.altitude = self.altitude - dist
         self.altitude_data.append(self.altitude)
         self.send_command('down', dist)
-        self.plot_altitude_steps()
+        self.plot_altitude_steps(e)
 
-    def left(self, dist: int):
+    def left(self, dist: int, e=25):
         """
         Command drone to fly left a given number of centimeters.
 
         Parameters
         ----------
         dist : int
+            the distance in centimeters
+        e : int
+            the width of the error bar in centimeters
 
         Examples
         ----------
         drone.left(100) # move drone left 100 centimeters
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(dist)
+        self.check_int_param(e)
         print("My current bearing is {} degrees.".format(self.bearing))
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing-90, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
         print(self.path_coors)
         self.send_command('left', dist)
-        self.plot_horz_steps()
+        self.plot_horz_steps(e)
 
-    def right(self, dist: int):
+    def right(self, dist: int, e=25):
         """
         Command drone to fly right a given number of centimeters.
 
         Parameters
         ----------
         dist : int
+            the distance in centimeters
+        e : int
+            the width of the error bar in centimeters
 
         Examples
         ----------
         drone.right(100) # move drone right 100 centimeters
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(dist)
+        self.check_int_param(e)
         print("My current bearing is {} degrees.".format(self.bearing))
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing+90, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
         self.send_command('right', dist)
-        self.plot_horz_steps()
+        self.plot_horz_steps(e)
 
-    def forward(self, dist: int):
+    def forward(self, dist: int, e=25):
         """
         Command drone to fly forward a given number of centimeters.
 
         Parameters
         ----------
         dist : int
+            the distance in centimeters
+        e : int
+            the width of the error bar in centimeters
 
         Examples
         ----------
         drone.forward(100) # move drone forward 100 centimeters
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(dist)
+        self.check_int_param(e)
         print("My current bearing is {} degrees.".format(self.bearing))
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
         self.send_command('forward', dist)
-        self.plot_horz_steps()
+        self.plot_horz_steps(e)
 
-    def back(self, dist: int):
+    def back(self, dist: int, e=25):
         """
         Command drone to fly backward a given number of centimeters.
 
         Parameters
         ----------
         dist : int
+            the distance in centimeters
+        e : int
+            the width of the error bar in centimeters
 
         Examples
         ----------
         drone.back(100) # move drone backward 100 centimeters
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(dist)
+        self.check_int_param(e)
         new_loc = self.dist_bearing(orig=self.cur_loc, bearing=self.bearing+180, dist=dist)
         self.cur_loc = new_loc
         self.path_coors.append(new_loc)
         self.send_command('back', dist)
-        self.plot_horz_steps()
+        self.plot_horz_steps(e)
 
     def cw(self, degr: int):
         """
@@ -300,7 +328,7 @@ class Simulator():
         drone.cw(90) # rotates drone 90 degrees clockwise
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(degr)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.bearing = self.bearing + (degr % 360)
@@ -320,14 +348,14 @@ class Simulator():
         drone.ccw(90) # rotates drone 90 degrees counter clockwise
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_int_param(degr)
         print("My current bearing is {} degrees.".format(self.bearing))
         self.bearing = self.bearing - (degr % 360)
         self.send_command('ccw', degr)
         print("My current bearing is {} degrees.".format(self.bearing))
 
-    def flip(self, direc: str):
+    def flip(self, direc: str, e=25):
         """
         Flips drones in one of four directions:
         l - left
@@ -338,17 +366,21 @@ class Simulator():
         Parameters
         ----------
         direc : str
+            direction of flip
+        e : int
+            the width of the error bar in centimeters
 
         Examples
         ----------
         drone.flip("f") # flips drone forward
 
         """
-        self.check_altitude()
+        self.check_takeoff()
         self.check_flip_param(direc)
+        self.check_int_param(e)
         self.send_command('flip', direc)
         self.flip_coors.append(self.cur_loc)
-        self.plot_horz_steps()
+        self.plot_horz_steps(e)
 
     # Deploys the command log from the simulation state to the actual drone
     def deploy(self):
