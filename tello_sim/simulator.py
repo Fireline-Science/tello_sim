@@ -97,8 +97,8 @@ class Simulator():
         xhilim = 200 if xhi < 200 else xhi + 40
         ylowlim = -200 if ylow > -200 else ylow - 40
         yhilim = 200 if yhi < 200 else yhi + 40
-        ax.set_xlim([xlowlim,xhilim])
-        ax.set_ylim([ylowlim,yhilim])
+        ax.set_xlim([xlowlim, xhilim])
+        ax.set_ylim([ylowlim, yhilim])
         ax.plot(horz_df[0], horz_df[1], 'bo', linestyle='dashed', linewidth=2, markersize=12, label="Drone Moves")
         ax.plot(horz_df[0], horz_df[1], linewidth=e, alpha=.15)
         if len(self.flip_coors) > 0:
@@ -132,7 +132,7 @@ class Simulator():
         drone.takeoff() # command drone to takeoff
 
         """
-        if self.takeoff_state == False:
+        if not self.takeoff_state:
             print("Get ready for takeoff!")
             self.takeoff_state = True
             self.altitude = self.takeoff_alt
