@@ -69,7 +69,7 @@ class Simulator():
         self.send_command('command')
 
     def check_takeoff(self):
-        if self.takeoff_state == False:
+        if not self.takeoff_state:
             raise Exception("I can't do that unless I take off first!")
         else:
             print("I am flying at {} centimeters above my takeoff altitude.".format(self.altitude))
