@@ -16,6 +16,9 @@ An exercise like this supports the United States' Next Generation Science Standa
 
 The sim was developed for use in a Jupyter notebook or QT console so that the plots are displayed inline with the code print outputs. The sim currently supports a subset of the full DJI command set including: takeoff, land, forward, back, left, right, up, down, flip, cw, and ccw.
 
+## Tello App for Android 12 (as of July 2022)
+While the app is not required for using the simulator, you may need it to update the drone's firmware. As of July 2022, the app in the Google Play Store does not work with Android 12. You can download a version that does work directly at https://www.dji.com/downloads/djiapp/tello .
+
 ## Example Jupyter Notebook
 ![](/images/jupyter_notebook.png)
 
@@ -63,6 +66,9 @@ my_drone.takeoff()
 my_drone.forward(40)
 ```
 ![](/images/forward.png)
+
+By default, the simulator plots a 25 cm error region in light blue around the flight path. For more advanced projects, you can override the default parameter by including the optional second error bar parameter in centimeters like ```forward(40, e=50)```. This is useful when you want to change the model (simulation) based on empirical (actual) testing.
+
 
 ```python
 my_drone.cw(45)
