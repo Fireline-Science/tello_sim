@@ -5,7 +5,10 @@ from matplotlib.ticker import FuncFormatter, MaxNLocator
 import numpy as np
 import pandas as pd
 
-from easytello import Tello
+try:
+    from easytello import Tello
+except ImportError:
+    Tello = None
 
 
 class Simulator():
@@ -393,6 +396,9 @@ class Simulator():
         drone.deploy() # deploy commands to drone
 
         """
+        if Tello == None:
+            raise Exception('You need to install Tello to deploy to a real drone')
+
         print('Deploying your commands to a real Tello drone!')
 
         if (self.driver_instance is None):
