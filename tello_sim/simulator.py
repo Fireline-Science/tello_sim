@@ -396,7 +396,7 @@ class Simulator():
         drone.deploy() # deploy commands to drone
 
         """
-        if Tello == None:
+        if Tello is None:
             raise Exception('You need to install Tello to deploy to a real drone')
 
         print('Deploying your commands to a real Tello drone!')
