@@ -331,7 +331,7 @@ class Simulator():
         self.check_takeoff()
         self.check_int_param(degr)
         print("My current bearing is {} degrees.".format(self.bearing))
-        self.bearing = self.bearing + (degr % 360)
+        self.bearing = (self.bearing + (degr % 360)) % 360
         self.send_command('cw', degr)
         print("My new bearing is {} degrees.".format(self.bearing))
 
@@ -351,7 +351,7 @@ class Simulator():
         self.check_takeoff()
         self.check_int_param(degr)
         print("My current bearing is {} degrees.".format(self.bearing))
-        self.bearing = self.bearing - (degr % 360)
+        self.bearing = (self.bearing - (degr % 360)) % 360
         self.send_command('ccw', degr)
         print("My current bearing is {} degrees.".format(self.bearing))
 
