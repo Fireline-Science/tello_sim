@@ -1,6 +1,6 @@
 # tello_sim
 
-**tello_sim** is a simple Python simulator (sim) that can be used by students to test their [tello](https://www.ryzerobotics.com/tello-edu) flight plans before deploying them to a real drone. It was inspired by the [easyTello](https://github.com/Virodroid/easyTello) library and uses it for the drone interface.
+**tello_sim** is a simple Python simulator (sim) that can be used by students to test their [tello](https://www.ryzerobotics.com/tello-edu) flight plans before deploying them to a real drone. In this fork, it uses [DJITellopy](https://github.com/damiafuentes/DJITelloPy)
 
 This is a fork of a previous project written by [Fireline-Science](https://github.com/Fireline-Science/tello_sim), so all credit goes to him for the heavy lifting. I simply am just updating it to help teach my classes.
 
@@ -145,7 +145,7 @@ my_drone.reset()
 ```
 
 ## Deploying to a Real Drone
-We are using the [easytello](https://github.com/Virodroid/easyTello) library to allow you to deploy your simulated flight to a real drone. Once you are connected to your drone via WiFi, you can deploy the commands you built up in an interactive session or loaded via a command file in Jupyter with the following command:
+We are using the [DJITellopy](https://github.com/damiafuentes/DJITelloPy) library to allow you to deploy your simulated flight to a real drone. Once you are connected to your drone via WiFi, you can deploy the commands you built up in an interactive session or loaded via a command file in Jupyter with the following command:
 
 ```python
 my_drone.deploy()
