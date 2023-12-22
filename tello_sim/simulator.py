@@ -409,6 +409,7 @@ class Simulator():
             # Since the driver binds to a socket on instantiation, we can only
             # keep a single driver instance open per session
             self.driver_instance = Tello()
+            self.driver_instance.connect()
 
         for command in self.command_log:
             self.driver_instance.send_command_without_return(self.serialize_command(command))
