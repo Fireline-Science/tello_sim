@@ -65,7 +65,7 @@ my_drone.takeoff()
 ![](/images/takeoff.png)
 
 ```python
-my_drone.forward(40)
+my_drone.move_forward(40)
 ```
 ![](/images/forward.png)
 
@@ -73,12 +73,12 @@ By default, the simulator plots a 25 cm error region in light blue around the fl
 
 
 ```python
-my_drone.cw(45)
+my_drone.rotate_counter_clockwise(45)
 ```
 ![](/images/cw.png)
 
 ```python
-my_drone.forward(50)
+my_drone.move_forward(50)
 ```
 ![](/images/forward_2.png)
 
@@ -107,13 +107,13 @@ In a classroom, it can be useful to allow students to share their command script
         ]
     },
     {
-    	"command": "cw",
+    	"command": "rotate_counter_clockwise",
 	"arguments": [
 	    90
 	]
     },
     {
-    	"command": "forward",
+    	"command": "move_forward",
 	"arguments": [
 	    100
 	]
@@ -172,4 +172,11 @@ Note: if you are running multiple scripts to the drone, you may have to kill the
 ```
 lsof -i:8889
 kill XXXX
+```
+
+If you're on Windows the following commands should work
+```
+
+netstat -p tcp -ano  | findstr ":21" (Outpuuted as Protocol Local Address Foreign Address State PID)
+taskkill /F /ID XXXX
 ```

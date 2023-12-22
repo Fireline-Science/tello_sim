@@ -355,7 +355,7 @@ class Simulator():
 
         Examples
         ----------
-        drone.ccw(90) # rotates drone 90 degrees counter clockwise
+        drone.rotate_counter_clockwise(90) # rotates drone 90 degrees counter clockwise
 
         """
         self.check_takeoff()
