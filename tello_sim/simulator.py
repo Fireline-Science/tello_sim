@@ -5,8 +5,8 @@ from matplotlib.ticker import FuncFormatter, MaxNLocator
 import numpy as np
 import pandas as pd
 
-from easytello import Tello
-
+from djitellopy import Tello
+from djitellopy import TelloException
 
 class Simulator():
     def __init__(self):
@@ -60,13 +60,33 @@ class Simulator():
         print('I am running your "{}" command.'.format(self.serialize_command(command_json)))
 
         time.sleep(2)
+        
+        
+    def send_command_with_retries(self, command: str, timeout: int = 7, retries: int = 3, *args):
+        command_json = {
+            'command': command,
+            'arguments': args
+        }
+        self.command_log.append(command_json)
+        print('I am running your "{}" command.'.format(self.serialize_command(command_json)))
+                
+        for i in range(retries):
+            try:
+                response = self.driver_instance.send_command_with_return(command, timeout)
+                if(response == 'ok'):
+                    return True
+            
+            except Exception as e:
+                print("Connection attempt #{} failed trying to send command: {}".format(i, command))
+                time.sleep(1)
+        print('Failed to send command after {} retries'.format(retries))
 
     # Control Commands
     def command(self):
         print("Hi! My name is TelloSim and I am your training drone.")
         print("I help you try out your flight plan before sending it to a real Tello.")
         print("I am now ready to take off. 🚁")
-        self.send_command('command')
+        self.send_command_with_retries('command')
 
     def check_takeoff(self):
         if not self.takeoff_state:
@@ -141,6 +161,16 @@ class Simulator():
             print("My estimated takeoff altitude is {} centimeters".format(self.altitude))
         else:
             print("My current altitude is {} centimeters, so I can't takeoff again!".format(self.altitude))
+            
+            
+    def emergency(self):
+        """
+        Stop all motors immediately.
+        """
+        self.send_command_with_retries("emergency")
+        self.takeoff_state = False
+        self.altitude = 0
+        
 
     def land(self, e=25):
         """
@@ -155,13 +185,13 @@ class Simulator():
         print("Get ready for landing!")
         self.takeoff_state = False
         self.altitude = 0
-        self.send_command('land')
+        self.send_command_with_retries('land')
         print("Here are the graphs of your flight! I can't wait to try this for real.")
         self.plot_horz_steps(e)
         self.plot_altitude_steps(e)
 
 
-    def up(self, dist: int, e=25):
+    def move_up(self, dist: int, e=25):
         """
         Command drone to fly up a given number of centimeters.
 
@@ -186,7 +216,7 @@ class Simulator():
         self.send_command('up', dist)
         self.plot_altitude_steps(e)
 
-    def down(self, dist: int, e=25):
+    def move_down(self, dist: int, e=25):
         """
         Command drone to fly down a given number of centimeters.
 
@@ -211,7 +241,7 @@ class Simulator():
         self.send_command('down', dist)
         self.plot_altitude_steps(e)
 
-    def left(self, dist: int, e=25):
+    def move_left(self, dist: int, e=25):
         """
         Command drone to fly left a given number of centimeters.
 
@@ -238,7 +268,7 @@ class Simulator():
         self.send_command('left', dist)
         self.plot_horz_steps(e)
 
-    def right(self, dist: int, e=25):
+    def move_right(self, dist: int, e=25):
         """
         Command drone to fly right a given number of centimeters.
 
@@ -264,7 +294,7 @@ class Simulator():
         self.send_command('right', dist)
         self.plot_horz_steps(e)
 
-    def forward(self, dist: int, e=25):
+    def move_forward(self, dist: int, e=25):
         """
         Command drone to fly forward a given number of centimeters.
 
@@ -290,7 +320,7 @@ class Simulator():
         self.send_command('forward', dist)
         self.plot_horz_steps(e)
 
-    def back(self, dist: int, e=25):
+    def move_back(self, dist: int, e=25):
         """
         Command drone to fly backward a given number of centimeters.
 
@@ -315,7 +345,7 @@ class Simulator():
         self.send_command('back', dist)
         self.plot_horz_steps(e)
 
-    def cw(self, degr: int):
+    def rotate_clockwise(self, degr: int):
         """
         Rotate drone clockwise.
 
@@ -335,7 +365,7 @@ class Simulator():
         self.send_command('cw', degr)
         print("My new bearing is {} degrees.".format(self.bearing))
 
-    def ccw(self, degr: int):
+    def rotate_counter_clockwise(self, degr: int):
         """
         Rotate drone counter clockwise.
 
@@ -345,7 +375,7 @@ class Simulator():
 
         Examples
         ----------
-        drone.ccw(90) # rotates drone 90 degrees counter clockwise
+        drone.rotate_counter_clockwise(90) # rotates drone 90 degrees counter clockwise
 
         """
         self.check_takeoff()
@@ -381,6 +411,7 @@ class Simulator():
         self.send_command('flip', direc)
         self.flip_coors.append(self.cur_loc)
         self.plot_horz_steps(e)
+        
 
     # Deploys the command log from the simulation state to the actual drone
     def deploy(self):
@@ -399,10 +430,16 @@ class Simulator():
             # Since the driver binds to a socket on instantiation, we can only
             # keep a single driver instance open per session
             self.driver_instance = Tello()
+            
+            try:
+                self.driver_instance.connect()
+            except Exception as e:
+                print("Failed to connect to drone. Please check that you are connected to the drone's WiFi network. If you're still having issues, please ask for help!")
 
         for command in self.command_log:
-            self.driver_instance.send_command(self.serialize_command(command))
-
+            self.driver_instance.send_command_without_return(self.serialize_command(command))
+            
+            
     # Resets the simulation state back to the beginning: no commands + landed
     def reset(self):
         """

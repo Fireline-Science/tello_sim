@@ -6,7 +6,7 @@ my_drone = Simulator()
 
 # flight commands are below
 my_drone.takeoff()
-my_drone.forward(130)
-my_drone.ccw(90)
-my_drone.forward(80)
+my_drone.move_forward(130)
+my_drone.rotate_clockwise(90)
+my_drone.move_forward(80)
 my_drone.land()

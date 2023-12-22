@@ -14,7 +14,7 @@ setuptools.setup(
     install_requires=[
         'pandas',
         'matplotlib',
-        'easytello'
+        'djitellopy'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',

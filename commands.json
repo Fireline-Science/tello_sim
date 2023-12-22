@@ -8,64 +8,64 @@
         "arguments": []
     },
     {
-        "command": "forward",
+        "command": "move_forward",
         "arguments": [
             100
         ]
     },
     {
-    	"command": "cw",
-	"arguments": [
-	    90
-	]
+        "command": "rotate_clockwise",
+        "arguments": [
+            90
+        ]
     },
     {
-    	"command": "forward",
-	"arguments": [
-	    100
-	]
+        "command": "move_forward",
+        "arguments": [
+            100
+        ]
     },
     {
-    	"command": "cw",
-	"arguments": [
-	    90
-	]
+        "command": "rotate_clockwise",
+        "arguments": [
+            90
+        ]
     },
     {
-    	"command": "forward",
-	"arguments": [
-	    100
-	]
+        "command": "move_forward",
+        "arguments": [
+            100
+        ]
     },
     {
-    	"command": "cw",
-	"arguments": [
-	    90
-	]
+        "command": "rotate_clockwise",
+        "arguments": [
+            90
+        ]
     },
     {
-    	"command": "forward",
-	"arguments": [
-	    100
-	]
+        "command": "move_forward",
+        "arguments": [
+            100
+        ]
     },
     {
-    	"command": "cw",
-	"arguments": [
-	    45 
-	]
+        "command": "rotate_clockwise",
+        "arguments": [
+            45
+        ]
     },
     {
-    	"command": "forward",
-	"arguments": [
-	    50
-	]
+        "command": "move_forward",
+        "arguments": [
+            50
+        ]
     },
     {
-    	"command": "flip",
-	"arguments": [
-	    "r"
-	]
+        "command": "flip",
+        "arguments": [
+            "r"
+        ]
     },
     {
         "command": "land",

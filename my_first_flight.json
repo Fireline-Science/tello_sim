@@ -8,19 +8,19 @@
         "arguments": []
     },
     {
-        "command": "forward",
+        "command": "move_forward",
         "arguments": [
             50
         ]
     },
     {
-        "command": "cw",
+        "command": "rotate_clockwise",
         "arguments": [
             90
         ]
     },
     {
-        "command": "forward",
+        "command": "move_forward",
         "arguments": [
             100
         ]

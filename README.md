@@ -1,6 +1,8 @@
 # tello_sim
 
-**tello_sim** is a simple Python simulator (sim) that can be used by students to test their [tello](https://www.ryzerobotics.com/tello-edu) flight plans before deploying them to a real drone. It was inspired by the [easyTello](https://github.com/Virodroid/easyTello) library and uses it for the drone interface.
+**tello_sim** is a simple Python simulator (sim) that can be used by students to test their [tello](https://www.ryzerobotics.com/tello-edu) flight plans before deploying them to a real drone. In this fork, it uses [DJITellopy](https://github.com/damiafuentes/DJITelloPy)
+
+This is a fork of a previous project written by [Fireline-Science](https://github.com/Fireline-Science/tello_sim), so all credit goes to him for the heavy lifting. I simply am just updating it to help teach my classes.
 
 One suggested use for the sim is to develop an in-class obstacle course for students to fly their drone through. For example, you could have designated launch and landing positions that are separated by a series of obstacles. Obstacles could include tunnels to fly through or corners to navigate around.
 
@@ -63,7 +65,7 @@ my_drone.takeoff()
 ![](/images/takeoff.png)
 
 ```python
-my_drone.forward(40)
+my_drone.move_forward(40)
 ```
 ![](/images/forward.png)
 
@@ -71,12 +73,12 @@ By default, the simulator plots a 25 cm error region in light blue around the fl
 
 
 ```python
-my_drone.cw(45)
+my_drone.rotate_counter_clockwise(45)
 ```
 ![](/images/cw.png)
 
 ```python
-my_drone.forward(50)
+my_drone.move_forward(50)
 ```
 ![](/images/forward_2.png)
 
@@ -105,13 +107,13 @@ In a classroom, it can be useful to allow students to share their command script
         ]
     },
     {
-    	"command": "cw",
+    	"command": "rotate_counter_clockwise",
 	"arguments": [
 	    90
 	]
     },
     {
-    	"command": "forward",
+    	"command": "move_forward",
 	"arguments": [
 	    100
 	]
@@ -143,7 +145,7 @@ my_drone.reset()
 ```
 
 ## Deploying to a Real Drone
-We are using the [easytello](https://github.com/Virodroid/easyTello) library to allow you to deploy your simulated flight to a real drone. Once you are connected to your drone via WiFi, you can deploy the commands you built up in an interactive session or loaded via a command file in Jupyter with the following command:
+We are using the [DJITellopy](https://github.com/damiafuentes/DJITelloPy) library to allow you to deploy your simulated flight to a real drone. Once you are connected to your drone via WiFi, you can deploy the commands you built up in an interactive session or loaded via a command file in Jupyter with the following command:
 
 ```python
 my_drone.deploy()
@@ -170,4 +172,11 @@ Note: if you are running multiple scripts to the drone, you may have to kill the
 ```
 lsof -i:8889
 kill XXXX
+```
+
+If you're on Windows the following commands should work
+```
+
+netstat -p tcp -ano  | findstr ":21" (Outpuuted as Protocol Local Address Foreign Address State PID)
+taskkill /F /ID XXXX
 ```
