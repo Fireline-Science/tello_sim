@@ -5,7 +5,7 @@ from matplotlib.ticker import FuncFormatter, MaxNLocator
 import numpy as np
 import pandas as pd
 
-from easytello import Tello
+from djitellopy import Tello
 
 
 class Simulator():
@@ -401,7 +401,7 @@ class Simulator():
             self.driver_instance = Tello()
 
         for command in self.command_log:
-            self.driver_instance.send_command(self.serialize_command(command))
+            self.driver_instance.send_command_without_return(self.serialize_command(command))
 
     # Resets the simulation state back to the beginning: no commands + landed
     def reset(self):
