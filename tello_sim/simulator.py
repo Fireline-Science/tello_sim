@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from djitellopy import Tello
-
+from djitellopy import TelloException
 
 class Simulator():
     def __init__(self):
@@ -60,13 +60,33 @@ class Simulator():
         print('I am running your "{}" command.'.format(self.serialize_command(command_json)))
 
         time.sleep(2)
+        
+        
+    def send_command_with_retries(self, command: str, timeout: int = 7, retries: int = 3, *args):
+        command_json = {
+            'command': command,
+            'arguments': args
+        }
+        self.command_log.append(command_json)
+        print('I am running your "{}" command.'.format(self.serialize_command(command_json)))
+                
+        for i in range(retries):
+            try:
+                response = self.driver_instance.send_command_with_return(command, timeout)
+                if(response == 'ok'):
+                    return True
+            
+            except Exception as e:
+                print("Connection attempt #{} failed trying to send command: {}".format(i, command))
+                time.sleep(1)
+        print('Failed to send command after {} retries'.format(retries))
 
     # Control Commands
     def command(self):
         print("Hi! My name is TelloSim and I am your training drone.")
         print("I help you try out your flight plan before sending it to a real Tello.")
         print("I am now ready to take off. 🚁")
-        self.send_command('command')
+        self.send_command_with_retries('command')
 
     def check_takeoff(self):
         if not self.takeoff_state:
@@ -147,7 +167,7 @@ class Simulator():
         """
         Stop all motors immediately.
         """
-        self.send_command("emergency")
+        self.send_command_with_retries("emergency")
         self.takeoff_state = False
         self.altitude = 0
         
@@ -165,7 +185,7 @@ class Simulator():
         print("Get ready for landing!")
         self.takeoff_state = False
         self.altitude = 0
-        self.send_command('land')
+        self.send_command_with_retries('land')
         print("Here are the graphs of your flight! I can't wait to try this for real.")
         self.plot_horz_steps(e)
         self.plot_altitude_steps(e)
@@ -391,6 +411,7 @@ class Simulator():
         self.send_command('flip', direc)
         self.flip_coors.append(self.cur_loc)
         self.plot_horz_steps(e)
+        
 
     # Deploys the command log from the simulation state to the actual drone
     def deploy(self):
@@ -409,7 +430,11 @@ class Simulator():
             # Since the driver binds to a socket on instantiation, we can only
             # keep a single driver instance open per session
             self.driver_instance = Tello()
-            self.driver_instance.connect()
+            
+            try:
+                self.driver_instance.connect()
+            except Exception as e:
+                print("Failed to connect to drone. Please check that you are connected to the drone's WiFi network. If you're still having issues, please ask for help!")
 
         for command in self.command_log:
             self.driver_instance.send_command_without_return(self.serialize_command(command))
