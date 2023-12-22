@@ -141,6 +141,16 @@ class Simulator():
             print("My estimated takeoff altitude is {} centimeters".format(self.altitude))
         else:
             print("My current altitude is {} centimeters, so I can't takeoff again!".format(self.altitude))
+            
+            
+    def emergency(self):
+        """
+        Stop all motors immediately.
+        """
+        self.send_command("emergency")
+        self.takeoff_state = False
+        self.altitude = 0
+        
 
     def land(self, e=25):
         """
@@ -161,7 +171,7 @@ class Simulator():
         self.plot_altitude_steps(e)
 
 
-    def up(self, dist: int, e=25):
+    def move_up(self, dist: int, e=25):
         """
         Command drone to fly up a given number of centimeters.
 
@@ -186,7 +196,7 @@ class Simulator():
         self.send_command('up', dist)
         self.plot_altitude_steps(e)
 
-    def down(self, dist: int, e=25):
+    def move_down(self, dist: int, e=25):
         """
         Command drone to fly down a given number of centimeters.
 
@@ -211,7 +221,7 @@ class Simulator():
         self.send_command('down', dist)
         self.plot_altitude_steps(e)
 
-    def left(self, dist: int, e=25):
+    def move_left(self, dist: int, e=25):
         """
         Command drone to fly left a given number of centimeters.
 
@@ -238,7 +248,7 @@ class Simulator():
         self.send_command('left', dist)
         self.plot_horz_steps(e)
 
-    def right(self, dist: int, e=25):
+    def move_right(self, dist: int, e=25):
         """
         Command drone to fly right a given number of centimeters.
 
@@ -264,7 +274,7 @@ class Simulator():
         self.send_command('right', dist)
         self.plot_horz_steps(e)
 
-    def forward(self, dist: int, e=25):
+    def move_forward(self, dist: int, e=25):
         """
         Command drone to fly forward a given number of centimeters.
 
@@ -290,7 +300,7 @@ class Simulator():
         self.send_command('forward', dist)
         self.plot_horz_steps(e)
 
-    def back(self, dist: int, e=25):
+    def move_back(self, dist: int, e=25):
         """
         Command drone to fly backward a given number of centimeters.
 
@@ -315,7 +325,7 @@ class Simulator():
         self.send_command('back', dist)
         self.plot_horz_steps(e)
 
-    def cw(self, degr: int):
+    def rotate_clockwise(self, degr: int):
         """
         Rotate drone clockwise.
 
@@ -335,7 +345,7 @@ class Simulator():
         self.send_command('cw', degr)
         print("My new bearing is {} degrees.".format(self.bearing))
 
-    def ccw(self, degr: int):
+    def rotate_counter_clockwise(self, degr: int):
         """
         Rotate drone counter clockwise.
 
