@@ -412,7 +412,8 @@ class Simulator():
 
         for command in self.command_log:
             self.driver_instance.send_command_without_return(self.serialize_command(command))
-
+            
+            
     # Resets the simulation state back to the beginning: no commands + landed
     def reset(self):
         """

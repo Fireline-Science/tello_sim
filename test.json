@@ -8,25 +8,25 @@
         "arguments": []
     },
     {
-        "command": "forward",
+        "command": "move_forward",
         "arguments": [
             80
         ]
     },
     {
-        "command": "cw",
+        "command": "rotate_clockwise",
         "arguments": [
             45
         ]
     },
     {
-        "command": "forward",
+        "command": "move_forward",
         "arguments": [
             40
         ]
     },
     {
-        "command": "up",
+        "command": "move_up",
         "arguments": [
             25
         ]
